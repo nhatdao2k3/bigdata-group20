@@ -11,7 +11,7 @@ dfnum = df.select_dtypes(include=[np.number])
 corr_matrix = dfnum.corr()
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap='coolwarm', linewidths=0.5)
-plt.title('Correlation Between Sales and Critic Score', fontsize=16)
+plt.title('Biểu đồ tương quan giữa các cột số', fontsize=16)
 plt.show()
 
 
@@ -129,4 +129,18 @@ plt.legend(legend_handles, color_mapping.keys(), title="Products line", loc="upp
 plt.title('Top sản phẩm bán nhiều nhất theo chi nhánh', fontsize=14)
 plt.xlabel('Chi nhánh', fontsize=12)
 plt.ylabel('Số lượng', fontsize=12)
+plt.show()
+
+#Tổng sản phẩm bán được theo thời gian
+df_month_quantity = df.groupby('Month')['Quantity'].sum().reset_index()
+plt.figure(figsize=(12, 6))
+plt.plot(df_month_quantity['Month'], df_month_quantity['Quantity'], marker='o', color='royalblue', linestyle='-', linewidth=2, markersize=8, label='Doanh thu')
+plt.xlabel('Tháng', fontsize=12, labelpad=10)
+plt.ylabel('Tổng số sản phẩm', fontsize=12, labelpad=10)
+plt.title('Tổng số sản phẩm bán được theo từng tháng', fontsize=14, pad=20)
+plt.grid(True, linestyle='--', alpha=0.6)
+for i, total in enumerate(df_month_quantity['Quantity']):
+    plt.text(df_month_quantity['Month'][i], total + 5000, f'{total}', ha='center', va='bottom', fontsize=10, color='darkblue', fontweight='bold')
+plt.xticks(df_month_quantity['Month'], rotation=45, ha='right', fontsize=10)
+plt.legend()
 plt.show()
